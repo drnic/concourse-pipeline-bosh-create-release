@@ -1,0 +1,36 @@
+---
+jobs:
+- name: job-bosh-create-release-upload
+  public: true
+  serial: true
+  plan:
+  - get: bosh-release
+    resource: git-bosh-release2
+  - task: create-release
+    config:
+      platform: linux
+      image: docker:///concourse/concourse-ci
+      inputs:
+      - name: bosh-release
+        path: .
+      run:
+        path: bosh
+        args: [-n, create, release, --with-tarball]
+  - put: s3-upload
+    params: {from: create-release/dev_releases/(.*)\.tgz}
+
+resources:
+- name: git-bosh-release2
+  type: git
+  source:
+    uri: {{git-bosh-release}}
+    branch: {{git-bosh-release-branch}}
+- name: s3-upload
+  type: s3
+  source:
+    access_key_id: {{aws-access-key-id}}
+    secret_access_key: {{aws-secret-access-key}}
+    region_name: {{aws-region-name}}
+    bucket:  {{aws-bosh-init-bucket}}
+    private: false
+    regexp: -(.*).tgz
