@@ -5,7 +5,7 @@ jobs:
   serial: true
   plan:
   - get: bosh-release
-    resource: git-bosh-release2
+    resource: git-bosh-release
   - task: create-release
     config:
       platform: linux
@@ -20,7 +20,7 @@ jobs:
     params: {from: create-release/dev_releases/(.*)\.tgz}
 
 resources:
-- name: git-bosh-release2
+- name: git-bosh-release
   type: git
   source:
     uri: {{git-bosh-release}}
