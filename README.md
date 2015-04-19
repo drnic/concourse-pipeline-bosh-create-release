@@ -3,7 +3,7 @@ Concoure pipeline - Create a BOSH release tarball and save to S3
 
 Creates a dev release of a BOSH release from its git repo and uploads to S3 as a tarball.
 
-![](http://cl.ly/image/1V1P3f3g1Y1S/pipeline.png)
+![](http://cl.ly/image/3b2D2U1d290f/Concourse.png)
 
 Example `credentials.yml`:
 
